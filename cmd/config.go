@@ -11,7 +11,8 @@ var (
 		" / /  / / /_/ / /_/ / (__  ) /_/ /_/ /\n" +
 		"/_/  /_/\\__,_/ .___/_/____/\\__/\\____/ \n" +
 		"            /_/   " + version + "\n")
-	description = color.GreenString(`Mapisto is a command-line database tool that can generate tables
+	description = banner + color.GreenString(`
+Mapisto is a command-line database tool that can generate tables
 with the type of Golang, Python,Rust, Java, TypeScript language,
 with the command line.`)
 )
