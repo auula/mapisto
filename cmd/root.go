@@ -36,7 +36,7 @@ var cfgFile string
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "mapisto",
-	Short: "Mapisto 是一款命令行数据库工具",
+	Short: "Mapisto is a command line database tool",
 	Long:  description,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
