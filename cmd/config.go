@@ -37,14 +37,14 @@ with the type of Golang, Python,Rust, Java, TypeScript language,
 with the command line.`
 )
 
-var cfg *MapistoConfig = New()
+var app *MapistoInfo = NewInfo()
 
-type MapistoConfig struct {
+type MapistoInfo struct {
 	Version, Banner, Description string
 }
 
-func New() *MapistoConfig {
-	return &MapistoConfig{
+func NewInfo() *MapistoInfo {
+	return &MapistoInfo{
 		Version:     color.YellowString(version),
 		Banner:      color.MagentaString(banner),
 		Description: color.MagentaString(banner) + color.GreenString(description),

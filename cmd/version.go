@@ -32,7 +32,7 @@ var versionCmd = &cobra.Command{
 	Long:  `view current application version.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println(fmt.Sprintf("OS: %s ARCH: %s", runtime.GOOS, runtime.GOARCH))
-		fmt.Println(fmt.Sprintf("Mapisto command line database tool %s ", cfg.Version))
+		fmt.Println(fmt.Sprintf("Mapisto command line database tool %s ", app.Version))
 	},
 }
 

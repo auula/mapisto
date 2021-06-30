@@ -25,14 +25,19 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var (
+	comoandSymbol = "😃:shell>"
+)
+
 var consoleCmd = &cobra.Command{
 	Use:   "console",
 	Short: "Console interaction",
 	Long:  `enter console interactive mode.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println(cfg.Banner)
+		fmt.Println(app.Banner)
+		fmt.Println(args)
 		fmt.Println("Please select table.")
-		t := prompt.Input("> ", completer)
+		t := prompt.Input(comoandSymbol, completer)
 		fmt.Println("You selected " + t)
 	},
 }
