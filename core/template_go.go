@@ -17,3 +17,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 package core
+
+type (
+	GoCodeTemplate map[string][]byte
+)
+
+func (tpl *GoCodeTemplate) Parse() string {
+	return ""
+}
