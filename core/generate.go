@@ -25,4 +25,5 @@ package core
 // MEngine is mapisto database mapper engine
 type MEngine struct {
 	tmpl Template
+	DataType
 }
