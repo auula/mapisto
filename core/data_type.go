@@ -29,20 +29,20 @@ const (
 )
 
 type DataType struct {
-	typeTable map[string]string
-	lang      Languages
+	Table map[string]string
+	Lang  Languages
 }
 
 func New(lang Languages) (*DataType, error) {
 	dt := new(DataType)
-	dt.lang = lang
+	dt.Lang = lang
 	switch lang {
 	case Java:
-		dt.typeTable = nil
+		dt.Table = nil
 	case Rust:
-		dt.typeTable = nil
+		dt.Table = nil
 	case Golang:
-		dt.typeTable = nil
+		dt.Table = nil
 	default:
 		return nil, errors.New("not find languages")
 	}
