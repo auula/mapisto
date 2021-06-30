@@ -17,3 +17,34 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 package core
+
+import "errors"
+
+type Languages int8
+
+const (
+	Java Languages = iota
+	Rust
+	Golang
+)
+
+type DataType struct {
+	typeTable map[string]string
+	lang      Languages
+}
+
+func New(lang Languages) (*DataType, error) {
+	dt := new(DataType)
+	dt.lang = lang
+	switch lang {
+	case Java:
+		dt.typeTable = nil
+	case Rust:
+		dt.typeTable = nil
+	case Golang:
+		dt.typeTable = nil
+	default:
+		return nil, errors.New("not find languages")
+	}
+	return dt, nil
+}
