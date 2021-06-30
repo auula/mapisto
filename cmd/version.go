@@ -20,6 +20,7 @@ package cmd
 
 import (
 	"fmt"
+	"runtime"
 
 	"github.com/spf13/cobra"
 )
@@ -30,7 +31,8 @@ var versionCmd = &cobra.Command{
 	Short: "Version info",
 	Long:  `view current application version.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println(version)
+		fmt.Println(fmt.Sprintf("OS: %s ARCH: %s", runtime.GOOS, runtime.GOARCH))
+		fmt.Println(fmt.Sprintf("Mapisto command line database tool %s ", cfg.Version))
 	},
 }
 

@@ -30,7 +30,7 @@ var consoleCmd = &cobra.Command{
 	Short: "Console interaction",
 	Long:  `enter console interactive mode.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println(description)
+		fmt.Println(cfg.Banner)
 		fmt.Println("Please select table.")
 		t := prompt.Input("> ", completer)
 		fmt.Println("You selected " + t)
