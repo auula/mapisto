@@ -70,7 +70,7 @@ func New(lang Languages) (*DataType, error) {
 			"double":     "float64",
 		}
 	default:
-		return nil, errors.New("not find languages")
+		return nil, errors.New("language is not support")
 	}
 	return dt, nil
 }
