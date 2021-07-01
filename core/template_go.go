@@ -41,12 +41,12 @@ type StructColumun struct {
 
 func NewGoTpl() *GoCodeTemplate {
 	return &GoCodeTemplate{
-		StructTpl: `type {{.TableName | ToCamelCase}} struct {
+		StructTpl: `type {{.StructName | ToCamelCase}} struct {
 			{{range .Columns}}	{{ $length := len .Comment}} {{ if gt $length 0 }}// {{.Comment}} {{else}}// {{.Name}} {{ end }}
 				{{ $typeLen := len .Type }} {{ if gt $typeLen 0 }}{{.Name | ToCamelCase}}	{{.Type}}	{{.Tag}}{{ else }}{{.Name}}{{ end }}
 			{{end}}}
-			func (model {{.TableName | ToCamelCase}}) TableName() string {
-				return "{{.TableName}}"
+			func (model {{.StructName | ToCamelCase}}) StructName() string {
+				return "{{.StructName}}"
 			}`,
 		DataType: NewDataType(Golang),
 	}

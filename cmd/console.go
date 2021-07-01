@@ -23,6 +23,7 @@ import (
 
 	"github.com/c-bata/go-prompt"
 	"github.com/fatih/color"
+	"github.com/higker/mapisto/core"
 	"github.com/spf13/cobra"
 )
 
@@ -38,15 +39,28 @@ var consoleCmd = &cobra.Command{
 	console: console interactive mode.`),
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println(app.Banner)
-		fmt.Println("Please select table.")
+		fmt.Println("Please select table name.")
+
+		me := core.New(core.Golang)
+
+		me.SetDB(core.NewDB(
+			&core.DBInfo{
+				HostIP:   "45.76.202.255:3306",
+				UserName: "emp_db",
+				Password: "TsTkHXDK4xPFtCph",
+				DBType:   "mysql",
+				Charset:  "utf8",
+			},
+		))
+		fmt.Println(me.DataBase.DBInfo)
 		t := prompt.Input(comoandSymbol, completer)
-		fmt.Println("You selected " + t)
+		fmt.Println(me.Generate("emp_db", t))
 	},
 }
 
 func completer(d prompt.Document) []prompt.Suggest {
 	s := []prompt.Suggest{
-		{Text: "users", Description: "Store the username and age"},
+		{Text: "user_info"},
 		{Text: "articles", Description: "Store the article text posted by user"},
 		{Text: "comments", Description: "Store the text commented to articles"},
 	}

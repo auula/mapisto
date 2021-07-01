@@ -22,6 +22,8 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type DBInfo struct {
@@ -54,11 +56,11 @@ func NewDB(info *DBInfo) *DataBase {
 
 func (db *DataBase) Connection() error {
 	var err error
-	str := "%s:%s@tcp(%s)/infomation_schema?charset=%s&parseTime=True&loc=Local"
+	str := "%s:%s@tcp(%s)/information_schema?charset=%s&parseTime=True&loc=Local"
 	dsn := fmt.Sprintf(str,
 		db.DBInfo.UserName,
 		db.DBInfo.Password,
-		db.DBInfo.DBType,
+		db.DBInfo.HostIP,
 		db.DBInfo.Charset,
 	)
 	// open sql connection
