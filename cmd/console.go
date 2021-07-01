@@ -22,20 +22,22 @@ import (
 	"fmt"
 
 	"github.com/c-bata/go-prompt"
+	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
 
 var (
+	mode          string
 	comoandSymbol = "😃:shell>"
 )
 
 var consoleCmd = &cobra.Command{
 	Use:   "console",
 	Short: "Console interaction",
-	Long:  `enter console interactive mode.`,
+	Long: color.RedString(`
+	console: console interactive mode.`),
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println(app.Banner)
-		fmt.Println(args)
 		fmt.Println("Please select table.")
 		t := prompt.Input(comoandSymbol, completer)
 		fmt.Println("You selected " + t)
@@ -51,5 +53,6 @@ func completer(d prompt.Document) []prompt.Suggest {
 	return prompt.FilterHasPrefix(s, d.GetWordBeforeCursor(), true)
 }
 func init() {
+	consoleCmd.Flags().StringVarP(&mode, "mode", "m", "", "input `ui` to run in web ui mode")
 	rootCmd.AddCommand(consoleCmd)
 }

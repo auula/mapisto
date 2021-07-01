@@ -17,3 +17,50 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 package core
+
+import (
+	"database/sql"
+	"fmt"
+)
+
+type DBInfo struct {
+	DBType   string
+	HostIP   string
+	UserName string
+	Password string
+	Charset  string
+}
+
+type TableColumn struct {
+	ColumnName    string
+	DataType      string
+	IsNullable    string
+	ColumnKey     string
+	ColumnType    string
+	ColumnComment string
+}
+
+type DBMode struct {
+	DBEngine *sql.DB
+	DBInfo   *DBInfo
+}
+
+func NewDB(info *DBInfo) *DBMode {
+	return &DBMode{
+		DBInfo: info,
+	}
+}
+
+func (db *DBMode) Connection() error {
+	var err error
+	str := "%s:%s@tcp(%s)/infomation_schema?charset=%s&parseTime=True&loc=Local"
+	dsn := fmt.Sprintf(str,
+		db.DBInfo.UserName,
+		db.DBInfo.Password,
+		db.DBInfo.DBType,
+		db.DBInfo.Charset,
+	)
+	// open sql connection
+	db.DBEngine, err = sql.Open(db.DBInfo.DBType, dsn)
+	return err
+}
