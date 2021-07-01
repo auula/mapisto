@@ -18,10 +18,66 @@ THE SOFTWARE.
 */
 package core
 
-type (
-	GoCodeTemplate map[string][]byte
+import (
+	"fmt"
+	"html/template"
+	"os"
+	"strings"
 )
 
-func (tpl *GoCodeTemplate) Parse() string {
-	return ""
+type GoCodeTemplate struct {
+	*DataType
+	StructTpl  string
+	StructName string
+	Columuns   []*StructColumun
+}
+
+type StructColumun struct {
+	Name    string
+	Type    string
+	Tag     string
+	Comment string
+}
+
+func NewGoTpl() *GoCodeTemplate {
+	return &GoCodeTemplate{
+		StructTpl: `type {{.TableName | ToCamelCase}} struct {
+			{{range .Columns}}	{{ $length := len .Comment}} {{ if gt $length 0 }}// {{.Comment}} {{else}}// {{.Name}} {{ end }}
+				{{ $typeLen := len .Type }} {{ if gt $typeLen 0 }}{{.Name | ToCamelCase}}	{{.Type}}	{{.Tag}}{{ else }}{{.Name}}{{ end }}
+			{{end}}}
+			func (model {{.TableName | ToCamelCase}}) TableName() string {
+				return "{{.TableName}}"
+			}`,
+		DataType: NewDataType(Golang),
+	}
+}
+
+func (tpl *GoCodeTemplate) Parse(tableName string, tplColumns []*StructColumun) error {
+	tmpl := template.Must(template.New("sql2struct").Funcs(template.FuncMap{
+		"ToCamelCase": func(s string) string {
+			s = strings.Replace(s, "_", " ", -1)
+			s = strings.Title(s)
+			return strings.Replace(s, " ", "", -1)
+		},
+	}).Parse(tpl.StructTpl))
+
+	err := tmpl.Execute(os.Stdout, tpl)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (tpl *GoCodeTemplate) AssemblyColumns(tbColumns []*TableColumn) []*StructColumun {
+	tplColumns := make([]*StructColumun, 0, len(tbColumns))
+	for _, column := range tbColumns {
+		tag := fmt.Sprintf("`"+"json:"+"\"%s\""+"`", column.ColumnName)
+		tplColumns = append(tplColumns, &StructColumun{
+			Name:    column.ColumnName,
+			Type:    tpl.DataType.Table[column.DataType],
+			Tag:     tag,
+			Comment: column.ColumnComment,
+		})
+	}
+	return tplColumns
 }

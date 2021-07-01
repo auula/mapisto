@@ -18,8 +18,6 @@ THE SOFTWARE.
 */
 package core
 
-import "errors"
-
 type Languages int8
 
 const (
@@ -33,7 +31,7 @@ type DataType struct {
 	Lang  Languages
 }
 
-func New(lang Languages) (*DataType, error) {
+func NewDataType(lang Languages) *DataType {
 	dt := new(DataType)
 	dt.Lang = lang
 	switch lang {
@@ -70,7 +68,7 @@ func New(lang Languages) (*DataType, error) {
 			"double":     "float64",
 		}
 	default:
-		return nil, errors.New("language is not support")
+		panic("language is not support")
 	}
-	return dt, nil
+	return dt
 }

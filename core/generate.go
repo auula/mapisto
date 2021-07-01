@@ -24,6 +24,39 @@ package core
 
 // MEngine is mapisto database mapper engine
 type MEngine struct {
-	tmpl Template
-	DataType
+	Tpl Template
+	*DataBase
+}
+
+func (me *MEngine) SetDB(db *DataBase) {
+	me.DataBase = db
+}
+
+func New(lang Languages) *MEngine {
+	var me MEngine
+	switch lang {
+	case Golang:
+		me.Tpl = NewGoTpl()
+	}
+	return &me
+}
+
+func (me *MEngine) Generate(dbName, tabName string) error {
+
+	// 连接数据库
+	if err := me.DataBase.Connection(); err != nil {
+		return err
+	}
+
+	// 通过数据库和表查询表的字段
+	tabColumns, err := me.DataBase.Columns(dbName, tabName)
+
+	if err != nil {
+		return err
+	}
+
+	// 表字段转换成结构体字段
+	structCulumns := me.Tpl.AssemblyColumns(tabColumns)
+
+	return me.Tpl.Parse(tabName, structCulumns)
 }

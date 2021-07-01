@@ -21,5 +21,6 @@ package core
 const ()
 
 type Template interface {
-	Parse() string
+	Parse(tableName string, tplColumns []*StructColumun) error
+	AssemblyColumns(tbColumns []*TableColumn) []*StructColumun
 }
